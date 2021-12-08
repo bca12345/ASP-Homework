@@ -19,11 +19,20 @@ end
 % p = [h(0);h(-1);...;h(-M+1)] and h(n) = 0 for n < 0
 p = [1; zeros(M-1,1)];
 
+% fun_h = @(f,n)( (1 + (1/8)*exp(-1j*2*pi*f))/(1 - (1/4) * exp(-1j*2*pi*f) - (1/8) * exp(-1j*4*pi*f)) )...
+%     * exp(1j*2*pi*f*n);
+% H =@(n)integral(@(f)fun(f,n),-1/2,1/2);
+% 
+% p = zeros(M,1);
+% for i = 0 : M-1
+%     p(i+1) = conj(H(i));
+% end
+
 % autocorrealation matrix
 fun = @(f,n)( (1 + 1/64 + (1/8) * (exp(1j*2*pi*f)+exp(-1j*2*pi*f))) / ...
     (1 + 1/16 + 1/64 + (-7/32) * (exp(1j*2*pi*f)+exp(-1j*2*pi*f)) + ...
     (1/8) * (exp(1j*4*pi*f) + exp(1j*4*pi*f)) ) ) * exp(1j*2*pi*f*n);
-F =@(n)integral(@(f)fun(f,n),0,1);
+F =@(n)integral(@(f)fun(f,n),-1/2,1/2);
 
 next = 0;
 r = zeros(M,M);
