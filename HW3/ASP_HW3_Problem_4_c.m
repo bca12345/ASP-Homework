@@ -25,7 +25,7 @@ p = [1; zeros(M-1,1)];
 fun = @(f,n)( (1 + 1/64 + (1/8) * (exp(1j*2*pi*f)+exp(-1j*2*pi*f))) / ...
     (1 + 1/16 + 1/64 + (-7/32) * (exp(1j*2*pi*f)+exp(-1j*2*pi*f)) + ...
     (1/8) * (exp(1j*4*pi*f) + exp(1j*4*pi*f)) ) ) * exp(1j*2*pi*f*n);
-F =@(n)integral(@(f)fun(f,n),0,1);
+F =@(n)integral(@(f)fun(f,n),-1/2,1/2);
 
 next = 0;
 r = zeros(M,M);
@@ -53,7 +53,7 @@ for n = 1 : 500
 %     nu(n) = { U'*c{1} };     % nu(n) = [nu_1(n); ... ;nu_M(n)]
 
     % MSE
-    J_min = sd2 - p' * w_opt;
+    J_min = sd2 - p' * w_opt;  % J_min is less than 1 !!!!
     s = 0;
     for k = 1:M
         s = s + eig_value(k)*(1-mu*eig_value(k))^(2*n)*abs(nu_0(k))^2;
